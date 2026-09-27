@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FlyGate — 2 · 시판 후 감시</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+/* 색·컴포넌트 토큰은 FDDD(fly-connectome-template) src/style.css 에서 가져옴.
+   글자 크기만 가독성을 위해 상향. 크레딧은 각 화면 푸터에 표시. */
+:root{
+--bg:#060B13; --panel:#080F1A; --panel2:#0B1421; --panel3:#101B2B;
+--line:#1D2B3D; --line2:#2B3D53; --line3:#25405E;
+--text:#DCE8F4; --bright:#EDF6FF; --muted:#8093AC; --muted2:#92A8BE;
+--accent:#65D9F1; --ok:#70F2B8; --warn:#FFC445; --no:#FF8B35; --human:#B76CFF; --ligand:#DDBB65;
+--r:7px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:'DM Sans','IBM Plex Sans KR',system-ui,sans-serif;color:var(--text);font-size:15px;line-height:1.5;font-synthesis:none}
+a{color:#9DC7E2;text-decoration:none}a:hover{color:#FFFFFF}
+button{font:inherit;color:var(--text);background:#101C2B;border:1px solid var(--line2);border-radius:5px;cursor:pointer}
+button:hover{border-color:#78B7DC;color:#FFFFFF}
+button:focus-visible{outline:2px solid #4EE4FF;outline-offset:4px}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.lbl{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.13em;color:#7392AE;text-transform:uppercase}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
+.h2{margin:0;font-size:17px;font-weight:600;letter-spacing:-.2px;color:var(--bright)}
+.trow{background:transparent;border-radius:0}
+.trow:hover{background:#17263A;border-color:transparent}
+.foot{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#516A83}
+.foot a{color:#779AB7}
+@keyframes fadeA{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes fadeB{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes grow{from{width:0}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.live{animation:pulse 2s ease-in-out infinite}
+.bar{transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.grow{animation:grow 1s cubic-bezier(.2,.8,.2,1) both}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</style>
+<style>
+/* 스탠드얼론 전용 보정: 좁은 화면에서 오른쪽이 잘리지 않게 한다 */
+body{overflow-x:hidden}
+#app>div{margin:0 auto}
+</style>
+</head>
+<body>
+<template id="tpl">
+<div style="width: 100%; max-width: 1440px; min-height: 1720px; height: auto; display: flex; flex-direction: column; background: var(--bg);">
+
+<header style="height: 64px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; border-bottom: 1px solid var(--line); background: #080E17;">
+<div style="display: flex; align-items: baseline; gap: 16px;">
+<span style="font-size: 22px; font-weight: 600; letter-spacing: 5px;">FLYGATE</span>
+<span style="font-size: 14px; color: var(--muted2);">약물감시 콘솔</span>
+<span class="mono" style="font-size: 12px; letter-spacing: .1em; color: var(--human); border: 1px solid #3D2B55; border-radius: 4px; padding: 4px 10px;">STEP 2 / 2 · 시판 후 감시</span>
+</div>
+
+</header>
+
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 20px; padding: 24px 32px 28px;">
+
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="display: flex; align-items: center; gap: 10px;"><span class="mono" style="font-size: 12px; color: var(--accent);">← STEP 1</span><span class="lbl" style="letter-spacing:.13em;">니라파립 · PARP1 도킹 -10.178 · Boltz-2 pIC50 8.91</span></span>
+<h1 style="margin: 0; font-size: 30px; font-weight: 600; letter-spacing: -0.5px;">시판 후 이상사례 평가</h1>
+<span style="font-size: 14px; color: var(--muted2);">니라파립 (ZEJULA) × 혈소판감소증 · 보고 우선 분류</span>
+<span class="mono" style="display: inline-flex; align-items: center; gap: 8px; width: fit-content; margin-top: 4px; font-size: 13px; color: var(--muted2); border: 1px solid var(--line2); border-radius: 5px; padding: 6px 12px;">확률은 Jev 1.13.0 실측 · 보고 6건 중 3건은 실제 FAERS, 3건은 합성 예시</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px;">
+<button type="button" onClick="{{ toggleJev }}" style="height: 46px; padding: 0 20px; border-radius: var(--r); cursor: pointer; font-size: 15px; font-weight: 600; border: 1px solid {{ jv.bd }}; background: {{ jv.bg }}; color: {{ jv.fg }};">{{ jv.label }}</button>
+<button type="button" onClick="{{ next }}" style="height: 46px; padding: 0 20px; border-radius: var(--r); cursor: pointer; font-size: 15px; font-weight: 600; border: 1px solid var(--accent); background: var(--accent); color: #08131A;">다음 보고서</button>
+</div>
+</div>
+
+<div role="tablist" style="display: flex; gap: 8px; border-bottom: 1px solid var(--line); flex-shrink: 0;">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="2">
+<button type="button" role="tab" onClick="{{ t.pick }}" style="height: 46px; padding: 0 22px; border: 0; border-bottom: 2px solid {{ t.bd }}; border-radius: 0; background: transparent; font-size: 15px; font-weight: 600; color: {{ t.fg }}; cursor: pointer;">{{ t.label }}</button>
+</sc-for>
+</div>
+<sc-if value="{{ isMain }}" hint-placeholder-val="{{ isMain }}">
+<div class="card" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); overflow: hidden; flex-shrink: 0;">
+<sc-for list="{{ tiles }}" as="t" hint-placeholder-count="6">
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; border-right: 1px solid var(--line);">
+<span class="lbl" style="font-size: 11px;">{{ t.k }}</span>
+<span class="mono" style="font-size: 28px; color: {{ t.c }};">{{ t.v }}</span>
+<span style="font-size: 13px; color: var(--muted2);">{{ t.s }}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="display: grid; grid-template-columns: 420px minmax(0, 1fr) 440px; gap: 20px; flex-grow: 1; min-height: 0;">
+
+<section class="card" style="display: flex; flex-direction: column; overflow: hidden;">
+<div style="display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--line);">
+<h2 class="h2">보고 큐</h2>
+<span class="mono" style="margin-left: auto; font-size: 12px; color: var(--muted);">Jev p(관련)</span>
+</div>
+<div style="display: flex; flex-direction: column; flex-grow: 1;">
+<sc-for list="{{ reports }}" as="r" hint-placeholder-count="6">
+<button type="button" class="trow" onClick="{{ r.pick }}" style="display: flex; flex-direction: column; gap: 10px; min-height: 92px; padding: 14px 20px; text-align: left; cursor: pointer; border: 0; border-bottom: 1px solid var(--line); border-left: 3px solid {{ r.edge }}; color: var(--text); background: {{ r.bg }}; transition: background .2s;">
+<span style="display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 12px;">
+<span style="display: flex; align-items: center; gap: 8px;"><span class="mono" style="font-size: 13px; color: var(--muted2);">{{ r.id }}</span><span class="mono" style="font-size: 11px; color: {{ r.srcC }};">{{ r.srcLabel }}</span></span>
+<span class="mono" style="font-size: 12px; font-weight: 600; letter-spacing: .05em; padding: 4px 10px; border-radius: 5px; color: {{ r.rc }}; background: {{ r.rb }};">{{ r.route }}</span>
+</span>
+<span style="font-size: 14px; line-height: 1.5;">{{ r.meta }}</span>
+<span style="display: flex; align-items: center; gap: 12px; width: 100%;">
+<span style="flex-grow: 1; height: 6px; border-radius: 3px; background: #1B2B3E;"><span class="bar" style="display: block; height: 6px; border-radius: 3px; width: {{ r.w }}; background: {{ r.rc }};"></span></span>
+<span class="mono" style="font-size: 14px; width: 42px; text-align: right;">{{ r.p }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+<p style="margin: 0; padding: 14px 20px; font-size: 13px; line-height: 1.6; color: var(--muted2);">공개 FAERS에는 경과 서술이 없고, 인과성 미평가 사례가 섞여 있습니다.</p>
+</section>
+
+<section class="card" style="display: flex; flex-direction: column; overflow: hidden;">
+<div style="display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--line);">
+<h2 class="h2">판단 경로</h2>
+<span class="mono" style="margin-left: auto; font-size: 12px; color: var(--muted);">{{ sel.id }}</span>
+</div>
+<canvas ref="{{ brainRef }}" aria-label="판단 계층을 초파리 뇌 점구름 영역으로 표시" style="width: 100%; height: 290px; display: block; background: #070D17;"></canvas>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 16px 20px;">
+<sc-for list="{{ tiers }}" as="t" hint-placeholder-count="3">
+<div style="padding: 14px 16px; border-radius: var(--r); display: flex; flex-direction: column; gap: 5px; border: 1px solid {{ t.bd }}; background: {{ t.bg }}; opacity: {{ t.op }};">
+<span class="lbl" style="font-size: 11px; color: {{ t.c }};">{{ t.k }}</span>
+<span style="font-size: 15px; font-weight: 600;">{{ t.n }}</span>
+<span style="font-size: 13px; line-height: 1.5; color: var(--muted2);">{{ t.s }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin: 0 20px 20px; padding: 16px 18px; border-radius: var(--r); background: var(--panel3); display: flex; flex-direction: column; gap: 8px; flex-grow: 1;">
+<span style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;"><span class="lbl" style="font-size: 11px;">라우팅 근거 · Jev 문항 4개</span><sc-for list="{{ sel.q }}" as="q" hint-placeholder-count="4"><span class="mono" style="font-size: 12px; color: {{ q.c }};">{{ q.k }} {{ q.v }}</span></sc-for></span>
+<span style="font-size: 15px; line-height: 1.6;">{{ sel.why }}</span>
+</div>
+</section>
+
+<section class="card" style="display: flex; flex-direction: column; overflow: hidden;">
+<div style="display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--line);">
+<h2 class="h2">3단계 주장 검증</h2>
+<span class="mono" style="margin-left: auto; display: flex; gap: 12px; font-size: 12px; color: var(--muted);"><span style="color: var(--ok);">✓ 통과</span><span style="color: var(--no);">✕ 반려</span><span style="color: var(--warn);">? 사람 확인</span><span>– 해당 없음</span></span>
+</div>
+<div style="display: flex; flex-direction: column;">
+<sc-for list="{{ claims }}" as="c" hint-placeholder-count="4">
+<button type="button" class="trow" onClick="{{ c.pick }}" style="display: flex; flex-direction: column; gap: 12px; padding: 16px 20px; text-align: left; cursor: pointer; border: 0; border-bottom: 1px solid var(--line); border-left: 3px solid {{ c.edge }}; color: var(--text); background: {{ c.bg }}; transition: background .2s;">
+<span style="font-size: 14px; line-height: 1.55;">{{ c.text }}</span>
+<span style="display: flex; gap: 8px; align-items: center; width: 100%;">
+<span class="mono" style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 5px 10px; border-radius: 5px; color: {{ c.g1 }}; background: {{ c.b1 }};"><b style="font-size: 13px;">{{ c.s1 }}</b>근거 ID</span>
+<span class="mono" style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 5px 10px; border-radius: 5px; color: {{ c.g2 }}; background: {{ c.b2 }};"><b style="font-size: 13px;">{{ c.s2 }}</b>숫자 대조</span>
+<span class="mono" style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 5px 10px; border-radius: 5px; color: {{ c.g3 }}; background: {{ c.b3 }};"><b style="font-size: 13px;">{{ c.s3 }}</b>추론</span>
+<span style="flex-grow: 1;"></span>
+<span class="mono" style="font-size: 13px; font-weight: 600; padding: 4px 12px; border-radius: 5px; color: {{ c.vc }}; background: {{ c.vb }};">{{ c.v }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+<div style="margin: 16px 20px 20px; padding: 16px 18px; border-radius: var(--r); background: var(--panel3); display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
+<span class="lbl" style="font-size: 11px;">판정 사유</span>
+<span style="font-size: 14px; line-height: 1.65;">{{ claim.reason }}</span>
+<span class="mono" style="font-size: 12px; color: var(--muted); margin-top: auto;">{{ claim.ev }}</span>
+</div>
+</section>
+</div>
+
+<section class="card" style="display: grid; grid-template-columns: 300px 1fr 330px; overflow: hidden; flex-shrink: 0;">
+
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; border-right: 1px solid var(--line);">
+<span class="lbl">인과성 평가 · WHO-UMC</span>
+<span style="font-size: 22px; font-weight: 600; color: {{ who.c }};">{{ who.label }}</span>
+<span style="font-size: 13px; line-height: 1.6; color: var(--muted2);">{{ who.why }}</span>
+</div>
+
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; border-right: 1px solid var(--line);">
+<div style="display: flex; align-items: baseline; gap: 14px;">
+<span class="lbl">Naranjo 척도</span>
+<span class="mono" style="font-size: 22px; font-weight: 600; color: {{ nar.c }};">{{ nar.score }}점</span>
+<span style="font-size: 15px; font-weight: 600; color: {{ nar.c }};">{{ nar.label }}</span>
+<span class="mono" style="margin-left: auto; font-size: 12px; color: var(--warn);">10문항 중 {{ nar.unknown }}개 판정 불가</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px;">
+<sc-for list="{{ nar.items }}" as="q" hint-placeholder-count="10">
+<span title="{{ q.t }}" style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+<span class="mono" style="font-size: 11px; color: var(--muted);">{{ q.n }}</span>
+<span style="width: 100%; height: 26px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; background: {{ q.bg }}; color: {{ q.fg }};" class="mono">{{ q.v }}</span>
+</span>
+</sc-for>
+</div>
+<span style="font-size: 13px; line-height: 1.6; color: var(--muted2);">공개 FAERS에는 경과 서술이 없어 재투여·혈중농도·용량반응 문항을 채울 수 없습니다. 점수는 남은 문항만으로 계산됩니다.</span>
+</div>
+
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; background: {{ gap.bg }};">
+<span class="lbl" style="color: {{ gap.c }};">{{ gap.k }}</span>
+<span style="font-size: 14px; line-height: 1.6;">{{ gap.text }}</span>
+</div>
+</section>
+
+<div class="card" style="display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; overflow: hidden; flex-shrink: 0;">
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; border-right: 1px solid var(--line);">
+<span class="lbl" style="font-size: 11px;">근거 넘어선 주장 적발 · 8건</span>
+<div style="display: flex; align-items: center; gap: 14px;"><span style="font-size: 14px; width: 110px; color: var(--muted2);">규칙만</span><span style="flex-grow: 1; height: 6px; border-radius: 3px; background: #1B2B3E;"><span class="grow" style="display: block; width: 4%; height: 6px; border-radius: 3px; background: var(--muted);"></span></span><span class="mono" style="font-size: 14px; width: 40px; text-align: right;">0/4</span></div>
+<div style="display: flex; align-items: center; gap: 14px;"><span style="font-size: 14px; width: 110px; color: var(--muted2);">+ Nemotron</span><span style="flex-grow: 1; height: 6px; border-radius: 3px; background: #1B2B3E;"><span class="grow" style="display: block; width: 100%; height: 6px; border-radius: 3px; background: var(--accent); animation-delay: .15s;"></span></span><span class="mono" style="font-size: 14px; width: 40px; text-align: right;">4/4</span></div>
+</div>
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; border-right: 1px solid var(--line);"><span class="lbl" style="font-size: 11px;">정상 주장 오반려</span><span class="mono" style="font-size: 26px; color: var(--warn);">1 / 4</span></div>
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; border-right: 1px solid var(--line);"><span class="lbl" style="font-size: 11px;">과잉해석 규칙</span><span class="mono" style="font-size: 26px;">15 <span style="font-size: 13px; color: var(--muted2);">종</span></span></div>
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 6px;"><span class="lbl" style="font-size: 11px;">에이전트 도구</span><span class="mono" style="font-size: 26px;">8 <span style="font-size: 13px; color: var(--muted2);">종</span></span></div>
+</div>
+
+</div>
+</sc-if>
+<sc-if value="{{ isBench }}" hint-placeholder-val="{{ isBench }}">
+<div style="display: flex; flex-direction: column; gap: 20px; flex-grow: 1;">
+<p style="margin: 0; font-size: 14px; line-height: 1.65; color: var(--muted2);">openFDA FAERS 전체 20,692,690건에서 약물 10종 × 상위 8사건 = 80쌍을 <b style="color: var(--text);">PRR ≥ 2 · χ² ≥ 4 · n ≥ 3</b> 기준으로 검사했습니다. 통계를 통과한 54건을 <b style="color: var(--text);">Jev 1.13.0</b>이 먼저 확률로 걸러내고, 애매한 것만 Nemotron이 분류합니다. Jev가 보고 서식 잡음으로 짚어낸 <b style="color: var(--accent);">{{ nart }}건</b>은 Nemotron의 범주로는 표현할 수 없던 것입니다. <span style="color: var(--warn);">두 모델의 분류 정확도는 아직 전문가가 검증하지 않았습니다.</span></p>
+<div class="card" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); overflow: hidden; flex-shrink: 0;">
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; border-right: 1px solid var(--line);"><span class="lbl" style="font-size: 11px;">검사한 약물–사건 쌍</span><span class="mono" style="font-size: 28px;">80</span><span style="font-size: 13px; color: var(--muted2);">약물 10종 × 상위 8사건</span></div>
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; border-right: 1px solid var(--line);"><span class="lbl" style="font-size: 11px;">통계 기준 통과</span><span class="mono" style="font-size: 28px; color: var(--warn);">54</span><span style="font-size: 13px; color: var(--muted2);">PRR≥2 · χ²≥4 · n≥3</span></div>
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; border-right: 1px solid var(--line);"><span class="lbl" style="font-size: 11px;">남은 검토 항목</span><span class="mono" style="font-size: 28px; color: var(--accent);">{{ nrev }} <span style="font-size: 15px; color: var(--muted2);">/ 54</span></span><span style="font-size: 13px; color: var(--muted2);">제외분도 필터로 다시 봄</span></div>
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; border-right: 1px solid var(--line);"><span class="lbl" style="font-size: 11px;">자동 필터 제외율</span><span class="mono" style="font-size: 28px;">{{ ncut }}</span><span style="font-size: 13px; color: var(--warn);">전문가 검증 전</span></div>
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 6px;"><span class="lbl" style="font-size: 11px;">라벨 대조 정밀도</span><span class="mono" style="font-size: 28px;">0.57</span><span style="font-size: 13px; color: var(--muted2);">민감도 0.72 · 철자 정규화 후</span></div>
+</div>
+
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 20px; flex-grow: 1; min-height: 0;">
+
+<div style="display: flex; flex-direction: column; gap: 20px; min-width: 0;">
+<section class="card" style="display: flex; flex-direction: column; overflow: hidden;">
+<div style="display: flex; align-items: center; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--line);">
+<h2 class="h2">약물–사건 쌍</h2>
+<div role="group" aria-label="필터" style="display: flex; gap: 8px; margin-left: auto;">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+<button type="button" onClick="{{ f.pick }}" class="mono" style="height: 36px; padding: 0 14px; border-radius: 5px; font-size: 13px; border: 1px solid {{ f.bd }}; background: {{ f.bg }}; color: {{ f.fg }};">{{ f.label }}</button>
+</sc-for>
+</div>
+</div>
+<div class="lbl" style="display: grid; grid-template-columns: 1.2fr 2fr 0.75fr 0.8fr 1.3fr 0.9fr 1.15fr; gap: 14px; padding: 12px 20px; font-size: 11px; border-bottom: 1px solid var(--line);">
+<span>약물</span><span>이상사례 (MedDRA PT)</span><span>보고 n</span><span>PRR</span><span>ROR 95% CI</span><span>라벨</span><span>분류</span>
+</div>
+<div style="overflow: hidden; flex-grow: 1;">
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="14">
+<div style="display: grid; grid-template-columns: 1.2fr 2fr 0.75fr 0.8fr 1.3fr 0.9fr 1.15fr; gap: 14px; align-items: center; padding: 10px 20px; border-bottom: 1px solid var(--line); border-left: 3px solid {{ r.edge }};">
+<span style="font-size: 14px; font-weight: 600;">{{ r.drug }}</span>
+<span style="font-size: 14px; color: var(--muted2);">{{ r.event }}</span>
+<span class="mono" style="font-size: 13px;">{{ r.n }}</span>
+<span class="mono" style="font-size: 14px; color: {{ r.prrC }};">{{ r.prr }}</span>
+<span class="mono" style="font-size: 13px; color: var(--muted2);">{{ r.ci }}</span>
+<span class="mono" style="font-size: 12px; color: {{ r.labC }};">{{ r.lab }}</span>
+<span style="display: flex; flex-direction: column; gap: 2px; align-items: flex-start;"><span class="mono" style="font-size: 12px; padding: 4px 8px; border-radius: 4px; color: {{ r.catC }}; background: {{ r.catB }};">{{ r.cat }}</span><span class="mono" style="font-size: 11px; color: var(--accent);">{{ r.jev }}</span></span>
+</div>
+</sc-for>
+</div>
+</section>
+<section class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 12px; flex-shrink: 0;">
+<h2 class="h2">남은 한계</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 28px; font-size: 13px; line-height: 1.6; color: var(--muted2);">
+<p style="margin: 0;"><b>보고 서식 잡음은 Jev로 {{ nart }}건 걸러냈습니다.</b> OFF LABEL USE, DRUG INEFFECTIVE, HOSPITALISATION이 여기 해당합니다. FALL처럼 확률이 0.7에 못 미친 것은 아직 검토 목록에 남아 있습니다.</p>
+<p style="margin: 0;"><b>라벨을 정답지로 쓴 것</b> 자체가 완전하지 않습니다. 라벨 본문에 용어가 그대로 없으면 미기재로 잡힙니다. 철자 정규화(ANAEMIA→ANEMIA)로 정밀도가 0.52에서 0.57로 올랐지만, 동의어까지는 처리하지 못했습니다.</p>
+<p style="margin: 0;"><b>PRR·ROR은 동시 보고의 불균형</b>일 뿐 인과성이 아닙니다. 보고 편향과 적응증 혼동이 그대로 들어 있습니다.</p>
+<p style="margin: 0;"><b>약물 10종 · 쌍 80건</b>은 시연 규모입니다. 이 수치로 도구 성능을 일반화할 수 없습니다.</p>
+</div>
+</section>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 20px; min-width: 0;">
+
+<section class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+<h2 class="h2">2단 구조를 임계값별로 대조</h2>
+<p style="margin: 0; font-size: 12px; line-height: 1.55; color: var(--muted2);">신호 54건 전체를 Jev로 한 번 통과시킨 실측입니다. 확률이 임계값 밖이면 Jev 결론을 그대로 쓰고, 안쪽이면 Nemotron에 넘깁니다. 총 204.5s · 건당 3.79s · 28,002 토큰.</p>
+<div class="lbl" style="display: grid; grid-template-columns: 1.15fr 0.6fr 0.6fr 0.6fr 0.85fr 0.6fr; gap: 8px; font-size: 11px; padding-bottom: 6px; border-bottom: 1px solid var(--line);">
+<span>임계값</span><span>자동</span><span>이관</span><span>절감</span><span>Nemotron 일치</span><span>잡음</span>
+</div>
+<sc-for list="{{ cas }}" as="c" hint-placeholder-count="4">
+<div style="display: grid; grid-template-columns: 1.15fr 0.6fr 0.6fr 0.6fr 0.85fr 0.6fr; gap: 8px; align-items: center; padding: 7px 0; border-radius: 4px; background: {{ c.bg }};">
+<span class="mono" style="font-size: 13px; color: {{ c.c }}; font-weight: {{ c.w }};">{{ c.th }}</span>
+<span class="mono" style="font-size: 13px;">{{ c.auto }}</span>
+<span class="mono" style="font-size: 13px; color: var(--muted2);">{{ c.esc }}</span>
+<span class="mono" style="font-size: 13px; color: {{ c.c }};">{{ c.cut }}</span>
+<span class="mono" style="font-size: 13px; color: var(--muted2);">{{ c.ag }}</span>
+<span class="mono" style="font-size: 13px; color: var(--accent);">{{ c.art }}</span>
+</div>
+</sc-for>
+<p style="margin: 2px 0 0; font-size: 12px; line-height: 1.55; color: var(--muted2);">임계값을 낮추면 LLM 호출은 더 줄지만 Nemotron과 어긋나는 건수도 늘어납니다. 어긋난 쪽이 어느 모델의 오류인지는 아직 가리지 않았습니다.</p>
+</section>
+
+<section class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+<h2 class="h2">통계 신호 54건의 정체</h2>
+<sc-for list="{{ cats }}" as="c" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 14px; font-weight: 600; color: {{ c.c }};">{{ c.name }}</span><span class="mono" style="font-size: 14px; margin-left: auto;">{{ c.n }}건</span></div>
+<div style="height: 6px; border-radius: 3px; background: #1B2B3E;"><span class="grow" style="display: block; height: 6px; border-radius: 3px; width: {{ c.w }}; background: {{ c.c }};"></span></div>
+<span style="font-size: 12px; line-height: 1.55; color: var(--muted2);">{{ c.ex }}</span>
+</div>
+</sc-for>
+</section>
+
+
+</div>
+</div>
+
+</div>
+</sc-if>
+<footer class="foot" style="display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px 32px; border-top: 1px solid var(--line); flex-shrink: 0;"><span>Built with <a href="https://github.com/cobanov/fly-connectome-template">fly-connectome-template</a> by <a href="https://github.com/cobanov">Mert Cobanov</a> · UI adapted from <a href="https://github.com/AwesomeZun/FDDD">FDDD</a></span><span>MaleCNS v1.0 · FlyEM / HHMI Janelia · CC BY 4.0</span></footer>
+</div>
+</template>
+<div id="app"></div>
+<script src="./dc-shim.js"></script>
+<script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sel: 0, claim: 1, jev: true, tab: 'main' };
+    var self = this;
+    this.brainRef = function (el) { self.bc = el; };
+    this.R = [["APIXABAN", "ATRIAL FIBRILLATION", 4089, 13.76, 14.13, 15.07, 46520.1, 1, 1, "I"], ["APIXABAN", "THROMBOSIS", 2862, 11.56, 11.59, 12.5, 26709.9, 1, 1, "I"], ["APIXABAN", "CARDIAC DISORDER", 2516, 8.65, 8.6, 9.32, 16635.0, 1, 0, "C"], ["APIXABAN", "CEREBROVASCULAR ACCIDENT", 3586, 6.77, 6.86, 7.35, 17396.6, 1, 0, "I"], ["APIXABAN", "FALL", 2438, 2.32, 2.28, 2.47, 1848.0, 1, 0, "C"], ["APIXABAN", "DYSPNOEA", 3794, 2.12, 2.12, 2.26, 2296.8, 1, 0, "C"], ["APIXABAN", "OFF LABEL USE", 2919, 1.06, 1.02, 1.1, 10.4, 0, 0, ""], ["APIXABAN", "FATIGUE", 2409, 0.98, 0.94, 1.02, 1.3, 0, 0, ""], ["ATORVASTATIN", "TYPE 2 DIABETES MELLITUS", 11281, 41.91, 42.84, 44.86, 298438.6, 1, 0, "C"], ["ATORVASTATIN", "DYSPNOEA", 11588, 1.74, 1.74, 1.81, 3642.5, 0, 0, ""], ["ATORVASTATIN", "FATIGUE", 14402, 1.57, 1.58, 1.63, 3020.7, 0, 1, ""], ["ATORVASTATIN", "DIARRHOEA", 11591, 1.52, 1.52, 1.58, 2111.0, 0, 1, ""], ["ATORVASTATIN", "PAIN", 10427, 1.43, 1.42, 1.48, 1370.9, 0, 1, ""], ["ATORVASTATIN", "NAUSEA", 12932, 1.38, 1.38, 1.43, 1404.0, 0, 1, ""], ["ATORVASTATIN", "HEADACHE", 10205, 1.38, 1.36, 1.42, 1060.1, 0, 0, ""], ["ATORVASTATIN", "DRUG INEFFECTIVE", 13351, 0.85, 0.83, 0.86, 371.2, 0, 0, ""], ["CELECOXIB", "DRUG HYPERSENSITIVITY", 7938, 6.79, 7.0, 7.33, 37901.5, 1, 0, "C"], ["CELECOXIB", "ARTHRALGIA", 11257, 4.45, 4.68, 4.87, 29845.2, 1, 1, "I"], ["CELECOXIB", "PAIN", 12601, 3.33, 3.51, 3.64, 20720.4, 1, 1, "I"], ["CELECOXIB", "DRUG INEFFECTIVE", 18079, 2.22, 2.37, 2.45, 12705.6, 1, 0, "C"], ["CELECOXIB", "FATIGUE", 10098, 2.1, 2.14, 2.23, 5939.0, 1, 1, "T"], ["CELECOXIB", "NAUSEA", 9772, 2.0, 2.03, 2.12, 4990.1, 0, 1, ""], ["CELECOXIB", "DIARRHOEA", 7596, 1.9, 1.91, 2.0, 3316.2, 0, 1, ""], ["CELECOXIB", "OFF LABEL USE", 8086, 1.5, 1.5, 1.57, 1380.7, 0, 0, ""], ["CLOZAPINE", "NEUTROPHIL COUNT INCREASED", 4168, 114.96, 114.24, 123.74, 277413.3, 1, 0, "C"], ["CLOZAPINE", "SCHIZOPHRENIA", 4690, 105.64, 105.73, 113.87, 296317.6, 1, 1, "I"], ["CLOZAPINE", "NEUTROPENIA", 18898, 27.12, 31.26, 32.31, 410890.0, 1, 1, "C"], ["CLOZAPINE", "WHITE BLOOD CELL COUNT INCREASED", 4506, 22.17, 22.25, 23.7, 80410.9, 1, 0, "C"], ["CLOZAPINE", "HOSPITALISATION", 12426, 14.84, 16.06, 16.69, 148240.3, 1, 0, "C"], ["CLOZAPINE", "WHITE BLOOD CELL COUNT DECREASED", 4480, 7.19, 7.2, 7.65, 23007.1, 1, 0, "D"], ["CLOZAPINE", "DEATH", 12035, 2.37, 2.47, 2.56, 9763.3, 1, 1, "T"], ["CLOZAPINE", "DRUG INEFFECTIVE", 3967, 0.5, 0.47, 0.5, 2051.6, 0, 0, ""], ["METFORMIN", "LACTIC ACIDOSIS", 19411, 72.83, 74.43, 77.9, 533120.2, 1, 1, "T"], ["METFORMIN", "BLOOD GLUCOSE INCREASED", 27661, 8.0, 8.36, 8.58, 145673.9, 1, 0, "P"], ["METFORMIN", "ACUTE KIDNEY INJURY", 18273, 6.37, 6.5, 6.7, 73137.8, 1, 0, "C"], ["METFORMIN", "DIARRHOEA", 28320, 2.15, 2.2, 2.25, 17129.9, 1, 1, "C"], ["METFORMIN", "VOMITING", 19669, 2.04, 2.06, 2.12, 10248.2, 1, 1, "C"], ["METFORMIN", "NAUSEA", 30267, 1.86, 1.9, 1.95, 12033.1, 0, 1, ""], ["METFORMIN", "FATIGUE", 21563, 1.33, 1.33, 1.37, 1794.7, 0, 0, ""], ["METFORMIN", "DRUG INEFFECTIVE", 22819, 0.82, 0.8, 0.82, 918.0, 0, 0, ""], ["METHOTREXATE", "RHEUMATOID ARTHRITIS", 42800, 25.67, 27.68, 28.38, 628799.9, 1, 1, "I"], ["METHOTREXATE", "JOINT SWELLING", 25029, 11.0, 11.37, 11.7, 180655.2, 1, 0, "I"], ["METHOTREXATE", "ARTHRALGIA", 40825, 4.58, 4.85, 4.95, 104739.8, 1, 1, "I"], ["METHOTREXATE", "DRUG INEFFECTIVE", 93148, 3.19, 3.67, 3.73, 138341.8, 1, 0, "C"], ["METHOTREXATE", "PAIN", 39717, 2.89, 3.02, 3.09, 47168.3, 1, 1, "I"], ["METHOTREXATE", "OFF LABEL USE", 40061, 2.02, 2.09, 2.14, 20643.9, 1, 0, "C"], ["METHOTREXATE", "FATIGUE", 33048, 1.86, 1.9, 1.94, 13019.4, 0, 1, ""], ["METHOTREXATE", "NAUSEA", 29003, 1.6, 1.61, 1.65, 6458.5, 0, 1, ""], ["NIRAPARIB", "PLATELET COUNT DECREASED", 4132, 38.24, 45.22, 48.44, 144678.6, 1, 0, "T"], ["NIRAPARIB", "CONSTIPATION", 4109, 18.34, 21.54, 23.07, 66725.0, 1, 1, "T"], ["NIRAPARIB", "BLOOD PRESSURE INCREASED", 2459, 15.45, 16.55, 18.01, 32924.9, 1, 0, "C"], ["NIRAPARIB", "INSOMNIA", 2841, 10.2, 11.1, 12.02, 23603.0, 1, 1, "T"], ["NIRAPARIB", "NAUSEA", 5789, 7.0, 8.86, 9.41, 30710.5, 1, 1, "T"], ["NIRAPARIB", "FATIGUE", 5237, 6.43, 7.87, 8.37, 24757.6, 1, 1, "T"], ["NIRAPARIB", "HEADACHE", 2370, 3.6, 3.75, 4.08, 4564.7, 1, 1, "C"], ["NIRAPARIB", "OFF LABEL USE", 2249, 2.46, 2.51, 2.74, 2027.9, 1, 0, "C"], ["OLAPARIB", "MALIGNANT NEOPLASM PROGRESSION", 2063, 20.83, 21.98, 24.09, 38303.5, 1, 0, "P"], ["OLAPARIB", "ANAEMIA", 1622, 8.63, 8.82, 9.76, 10945.8, 1, 1, "T"], ["OLAPARIB", "DEATH", 4729, 5.56, 6.68, 7.13, 18342.0, 1, 1, "T"], ["OLAPARIB", "NAUSEA", 1827, 2.34, 2.35, 2.59, 1448.8, 1, 1, "C"], ["OLAPARIB", "FATIGUE", 1762, 2.29, 2.29, 2.53, 1325.1, 1, 1, "T"], ["OLAPARIB", "VOMITING", 724, 1.56, 1.47, 1.7, 147.1, 0, 1, ""], ["OLAPARIB", "OFF LABEL USE", 934, 1.09, 1.02, 1.16, 6.4, 0, 0, ""], ["OLAPARIB", "DRUG INEFFECTIVE", 677, 0.52, 0.46, 0.54, 323.0, 0, 0, ""], ["RUCAPARIB", "MALIGNANT NEOPLASM PROGRESSION", 1184, 28.08, 30.37, 34.35, 30680.3, 1, 0, "P"], ["RUCAPARIB", "CONSTIPATION", 785, 8.69, 8.78, 10.17, 5372.1, 1, 1, "T"], ["RUCAPARIB", "DECREASED APPETITE", 802, 8.3, 8.4, 9.71, 5178.3, 1, 1, "T"], ["RUCAPARIB", "FATIGUE", 2551, 7.87, 10.2, 11.18, 15818.4, 1, 1, "T"], ["RUCAPARIB", "NAUSEA", 2261, 6.86, 8.48, 9.33, 11725.7, 1, 1, "T"], ["RUCAPARIB", "ASTHENIA", 680, 4.33, 4.26, 4.98, 1763.6, 1, 1, "T"], ["RUCAPARIB", "VOMITING", 782, 3.99, 3.98, 4.61, 1785.5, 1, 1, "T"], ["RUCAPARIB", "DIARRHOEA", 790, 2.94, 2.91, 3.36, 1037.2, 1, 1, "T"], ["WARFARIN", "INTERNATIONAL NORMALISED RATIO INCREASED", 10459, 93.94, 99.75, 104.82, 608556.7, 1, 0, "D"], ["WARFARIN", "DRUG INTERACTION", 6383, 6.86, 6.98, 7.35, 30848.1, 1, 1, "T"], ["WARFARIN", "DYSPNOEA", 8565, 2.51, 2.57, 2.68, 7900.5, 1, 0, "P"], ["WARFARIN", "DIZZINESS", 5266, 1.75, 1.73, 1.83, 1706.3, 0, 0, ""], ["WARFARIN", "DIARRHOEA", 6025, 1.55, 1.53, 1.61, 1185.9, 0, 1, ""], ["WARFARIN", "FATIGUE", 6302, 1.34, 1.32, 1.39, 551.1, 0, 0, ""], ["WARFARIN", "NAUSEA", 6063, 1.27, 1.25, 1.31, 349.2, 0, 1, ""], ["WARFARIN", "DRUG INEFFECTIVE", 5251, 0.65, 0.62, 0.66, 1017.1, 0, 0, ""]];
+
+    // Jev 실측값 (jev-1.13.0, 2026-09-27). src: real = 실제 FAERS 보고, synth = 합성 예시
+    this.RAW = [
+      { id: 'FAERS 13497451', src: 'real', meta: '덴마크 · 64세 여성 · 휴약 후 회복',
+        j: { related: 0.81, serious: 0.05, insufficient: 0.49, confounded: 0.67 },
+        why: 'Jev가 관련성 0.81로 높게 봤습니다. 휴약 후 회복이 기록되어 있고 라벨 기재 이상반응입니다. 교란 가능성 0.67은 남지만 즉시 관련 판정 구간입니다.' },
+      { id: 'FAERS 13587068', src: 'real', meta: '사망 표시 · 원인은 질병 진행으로 기재',
+        j: { related: 0.30, serious: 0.98, insufficient: 0.63, confounded: 0.77 },
+        why: '중대성 0.98입니다. 관련성이 낮게 나와도 사망 사례는 확률과 무관하게 전문가 검토로 보냅니다. 교란 0.77은 질병 진행이라는 기재 때문입니다.' },
+      { id: 'FAERS 13643360', src: 'real', meta: '남성 · 전립선암 · 적응증 외 사용',
+        j: { related: 0.40, serious: 0.10, insufficient: 0.76, confounded: 0.79 },
+        why: '정보 부족 0.76, 교란 0.79로 둘 다 높습니다. 적응증 외 사용이라 라벨 맥락이 약합니다. 어느 쪽으로도 확신이 안 서 근거 검토로 이관합니다.' },
+      { id: '합성 예시-04', src: 'synth', meta: '보도 직후 유입 · 약물명 외 정보 없음',
+        j: { related: 0.40, serious: 0.08, insufficient: 0.86, confounded: 0.75 },
+        why: '정보 부족 0.86으로 임계값을 넘었습니다. 약물명과 사건명 외에 아무것도 없어 인과성 평가 자체가 불가합니다. 집계에만 씁니다.' },
+      { id: '합성 예시-05', src: 'synth', meta: '병용약 3종 · 투약 시작일 불명확',
+        j: { related: 0.47, serious: 0.10, insufficient: 0.48, confounded: 0.93 },
+        why: '교란 0.93으로 가장 높습니다. 혈소판을 낮추는 병용약이 둘이고 투약 시작일이 없어 시간 순서를 못 세웁니다. 근거 검토로 이관합니다.' },
+      { id: '합성 예시-06', src: 'synth', meta: '빈혈 · 투여 2주차 발생',
+        j: { related: 0.74, serious: 0.06, insufficient: 0.36, confounded: 0.59 },
+        why: '관련성 0.74로 즉시 판정 임계값 0.75에 0.01 모자랍니다. 라벨 기재 이상반응이고 발현 시점도 전형적이지만, 경계에 걸려 근거 검토로 넘깁니다.' }
+    ];
+    this.CLAIMS = [
+      { text: '니라파립–혈소판감소증 PRR 9.13. ZEJULA 라벨 5절·6절에 기재되어 새 신호로 보지 않는다.', g: [1, 1, 2], v: 'HUMAN', reason: '근거 ID와 수치가 원본과 일치하고 "라벨에 있으니 새 신호 아님"은 추론 범위 안입니다. 다만 실무 기준 확인은 약사 검토로 넘깁니다.', ev: 'faers:niraparib/thrombocytopenia · dailymed:ZEJULA §5,§6' },
+      { text: 'PARP1 -10.178, 응고인자 Xa -7.967이므로 니라파립은 PARP1 선택성이 있다.', g: [1, 1, 0], v: 'REJECT', reason: '두 숫자 모두 실측 Vina 로그이고 출처도 맞습니다. 그러나 서로 다른 단백질의 도킹 점수는 교차 비교할 수 없습니다. Xa 결과는 탐색용 교차 도킹입니다.', ev: 'vina:parp1-4r6e · vina:factor-xa-2p16 · rule:cross-target' },
+      { text: 'DiffDock 신뢰도가 높으므로 결합 친화도도 높다.', g: [1, 1, 0], v: 'REJECT', reason: 'DiffDock 신뢰도는 포즈 정확도 추정치이지 친화도가 아닙니다. 친화도 주장에는 실험 IC50/Kd 근거가 따로 필요합니다.', ev: 'diffdock:parp1 pose#1 · rule:confidence≠affinity' },
+      { text: '혈소판감소증 보고가 최근 급증해 인과성이 강화되었다.', g: [0, 3, 3], v: 'REJECT', reason: '근거 ID가 붙지 않아 1단에서 바로 반려됩니다. 보고량 증가는 보도 편향일 수 있어 인과 근거가 아닙니다.', ev: '근거 ID 없음' }
+    ];
+    this.QT = ['이 반응에 대한 결정적 보고가 이전에 있었나',
+      '의심 약물 투여 후에 발생했나', '투여 중단 후 호전됐나', '재투여 시 재발했나',
+      '반응을 설명할 다른 원인이 있나', '위약에서도 반응이 나타났나', '혈중 농도가 독성 범위였나',
+      '용량 변화에 따라 반응이 달라졌나', '과거 유사 약물에서 유사 반응이 있었나', '객관적 증거로 확인됐나'];
+    // 문항 답은 보고서에 적힌 정보만으로 매긴 데모 값이다. null = 공개 FAERS로는 판정 불가.
+    this.NQ = [
+      [1, 2, 1, null, 0, 0, null, null, null, 1],
+      [1, 2, null, null, -1, 0, null, null, null, 1],
+      [1, 2, null, null, 0, 0, null, null, null, 0],
+      [1, 0, null, null, 0, 0, null, null, null, 0],
+      [1, 0, null, null, -1, 0, null, null, null, 0],
+      [1, 2, null, null, 0, 0, null, null, null, 1]
+    ];
+    this.WHO = [
+      { label: '개연성 높음', c: '#70F2B8', why: '시간적 선후가 맞고 휴약 후 회복이 기록됐으며 라벨 기재 이상반응입니다. 재투여 기록은 없습니다.' },
+      { label: '가능함', c: '#FFC445', why: '시간적 선후는 맞지만 질병 진행이라는 다른 설명이 함께 기재돼 배제할 수 없습니다.' },
+      { label: '가능함', c: '#FFC445', why: '시간적 선후는 맞으나 적응증 외 사용이라 라벨 맥락이 약하고 추가 정보가 없습니다.' },
+      { label: '평가 불가', c: '#8093AC', why: '약물명과 사건명 외 정보가 없어 WHO-UMC 기준으로는 어느 등급도 매길 수 없습니다.' },
+      { label: '조건부 · 미분류', c: '#8093AC', why: '병용약 3종과 불명확한 투약 시작일 때문에 추가 자료 없이는 분류를 확정할 수 없습니다.' },
+      { label: '개연성 높음', c: '#70F2B8', why: '라벨 6절 기재 이상반응이고 발현 시점도 전형적입니다.' }
+    ];
+    // 설명 문구만 사람이 쓰고, 일치 여부는 실제 계산값에서 판정한다 (모순 방지).
+    this.GAP = [
+      '휴약 후 회복과 라벨 기재가 두 기준에서 같은 방향으로 작용했습니다.',
+      '사망 사례입니다. 두 기준이 같은 등급이어도 확률과 무관하게 전문가 검토로 보냅니다.',
+      '적응증 외 사용 맥락은 두 기준 모두 반영하지 못합니다. 사람이 확인해야 합니다.',
+      'WHO-UMC는 정보 부족으로 등급을 매기지 않는데, Naranjo는 1점이라 등급이 나옵니다. 정보가 없어도 점수가 나오는 것이 Naranjo의 한계입니다.',
+      '병용약과 불명확한 투약일 때문입니다. 한쪽은 부정, 한쪽은 보류로 성격이 다릅니다.',
+      '라벨 기재 여부를 Naranjo가 1점으로만 반영하기 때문에 등급이 갈립니다.'
+    ];
+  }
+  componentDidMount() {
+    var self = this;
+    this.alive = true;
+    fetch('./fgscene.json').then(function (r) { return r.json(); }).then(function (d) { if (self.alive) self.D = d; }).catch(function () {});
+    var loop = function (ts) { if (!self.alive) return; self.draw(ts || 0); self.raf = requestAnimationFrame(loop); };
+    this.raf = requestAnimationFrame(loop);
+  }
+  componentWillUnmount() { this.alive = false; cancelAnimationFrame(this.raf); }
+  tier() {
+    var r = this.eff()[this.state.sel].r;
+    return r === 's2' ? 2 : (r === 'hu' ? 3 : 1);
+  }
+  route(j) {
+    if (j.serious >= 0.8) return 'hu';
+    if (j.insufficient >= 0.8) return 's1r';
+    if (j.related >= 0.75) return 's1a';
+    return 's2';
+  }
+  eff() {
+    var self = this, jev = this.state.jev;
+    return this.RAW.map(function (x) {
+      var r = jev ? self.route(x.j) : (x.j.serious >= 0.8 ? 'hu' : 's2');
+      return { id: x.id, src: x.src, meta: x.meta, j: x.j, p: x.j.related, r: r,
+        why: jev ? x.why : '빠른 분류를 끄면 중대 사례만 빼고 전부 근거 검토로 갑니다. 같은 판정을 얻는 데 LLM 호출이 더 듭니다.' };
+    });
+  }
+  draw(ts) {
+    var D = this.D, cv = this.bc; if (!D || !cv) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2), W = cv.clientWidth, H = cv.clientHeight;
+    if (!W || !H) return;
+    if (cv.width !== Math.round(W * dpr)) { cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); }
+    var g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    g.fillStyle = '#070D17'; g.fillRect(0, 0, W, H);
+    var B = D.brain, R = Math.min(H * 0.40, W * 0.30), t = reduce ? -0.5 : -0.5 + ts * 0.00008;
+    var c1 = Math.cos(t), s1 = Math.sin(t), c2 = Math.cos(-0.42), s2 = Math.sin(-0.42);
+    var tier = this.tier();
+    var COL = { 1: [95, 201, 232], 2: [242, 180, 76], 3: [199, 155, 255] };
+    var lit = COL[tier];
+    for (var k = 0; k < B.length; k += 4) {
+      var x = B[k] / 1000, y = B[k + 1] / 1000, z = B[k + 2] / 1000, grp = B[k + 3];
+      var xa = x * c1 + z * s1, za = -x * s1 + z * c1, yb = y * c2 - za * s2;
+      var f = 3.2 / (3.2 + (y * s2 + za * c2));
+      var px = W / 2 + xa * R * f, py = H / 2 + yb * R * f;
+      var region = (y > 0.35) ? 3 : (Math.abs(x) > 0.45 ? 2 : 1);
+      if (region === tier) {
+        var a = 0.5 + 0.5 * Math.abs(Math.sin(ts * 0.0016 + k));
+        g.fillStyle = 'rgba(' + lit[0] + ',' + lit[1] + ',' + lit[2] + ',' + (reduce ? 0.85 : a).toFixed(2) + ')';
+        g.fillRect(px, py, 2, 2);
+      } else {
+        g.fillStyle = 'rgba(150,168,190,0.16)';
+        g.fillRect(px, py, 1.3, 1.3);
+      }
+    }
+    g.font = '500 13px "IBM Plex Mono", monospace'; g.textAlign = 'center';
+    g.fillStyle = 'rgba(' + lit[0] + ',' + lit[1] + ',' + lit[2] + ',0.95)';
+    g.fillText({ 1: 'SYSTEM 1 · 중앙 뇌', 2: 'SYSTEM 2 · 시각엽', 3: 'HUMAN · 복측 신경삭' }[tier], W / 2, H - 16);
+  }
+  naranjo(i) {
+    var Q = this.NQ[i], T = this.QT, sum = 0, unknown = 0;
+    var items = Q.map(function (v, n) {
+      if (v === null) { unknown++; return { n: String(n + 1), v: '?', bg: '#1A2432', fg: '#6E8299', t: T[n] + ' — 공개 FAERS로는 판정 불가' }; }
+      sum += v;
+      var pos = v > 0, zero = v === 0;
+      return { n: String(n + 1), v: (v > 0 ? '+' : '') + v,
+        bg: zero ? '#122032' : (pos ? '#0A2A20' : '#2B1A0C'),
+        fg: zero ? '#8096AE' : (pos ? '#70F2B8' : '#FF8B35'), t: T[n] };
+    });
+    var label, c;
+    if (sum >= 9) { label = '확실'; c = '#70F2B8'; }
+    else if (sum >= 5) { label = '개연성 높음'; c = '#70F2B8'; }
+    else if (sum >= 1) { label = '가능함'; c = '#FFC445'; }
+    else { label = '의심스러움'; c = '#FF8B35'; }
+    return { score: sum, label: label, c: c, unknown: unknown, items: items };
+  }
+  benchVals() {
+    var self = this, st = this.state;
+    var CAT = {
+      T: ['용어 불일치', '#65D9F1', '#0E2A36', '라벨에 있는 같은 개념을 다른 말로 적은 것. NIRAPARIB–NAUSEA, OLAPARIB–ANAEMIA'],
+      C: ['검토 대상', '#FFC445', '#2C2412', '위 넷에 안 들어가 사람이 봐야 하는 것. NIRAPARIB–BLOOD PRESSURE INCREASED'],
+      I: ['적응증', '#B76CFF', '#211539', '약이 치료하는 병 자체. APIXABAN–ATRIAL FIBRILLATION, CLOZAPINE–SCHIZOPHRENIA'],
+      P: ['질병 진행', '#FF8B35', '#2B1A0C', '기저 질환이 나빠진 것. OLAPARIB·RUCAPARIB–MALIGNANT NEOPLASM PROGRESSION'],
+      D: ['약효 지표', '#70F2B8', '#0A2A20', '약이 의도한 작용의 검사 수치. WARFARIN–INR INCREASED (PRR 93.94)'],
+      A: ['보고 서식 잡음', '#8FA6C4', '#182534', '이상사례가 아니라 보고 서식에서 나온 말. OFF LABEL USE, DRUG INEFFECTIVE, HOSPITALISATION']
+    };
+    // Jev 실측(jev-1.13.0, 2026-09-27) artifact 확률 >= 0.7 인 5건. Nemotron 범주에는 없던 것.
+    var JART = { 'METHOTREXATE|OFF LABEL USE': 0.93, 'NIRAPARIB|OFF LABEL USE': 0.92,
+      'CLOZAPINE|HOSPITALISATION': 0.81, 'CELECOXIB|DRUG INEFFECTIVE': 0.73, 'METHOTREXATE|DRUG INEFFECTIVE': 0.72 };
+    var jcat = function (x) { return (st.jev !== false && JART[x[0] + '|' + x[1]] !== undefined) ? 'A' : x[9]; };
+    var R = this.R, sig = R.filter(function (x) { return x[7]; });
+    var view;
+    if ((st.bf || "review") === 'all') view = R;
+    else if ((st.bf || "review") === 'signal') view = sig;
+    else view = sig.filter(function (x) { return jcat(x) === 'C' && !x[8]; });
+    view = view.slice().sort(function (a, b) { return b[3] - a[3]; }).slice(0, 15);
+    var rows = view.map(function (x) {
+      var k = jcat(x), cat = CAT[k] || ['—', '#8093AC', 'transparent', ''];
+      var jp = JART[x[0] + '|' + x[1]];
+      return { drug: x[0], event: x[1], n: String(x[2]), prr: x[3].toFixed(2),
+        prrC: x[3] >= 10 ? '#FFC445' : 'var(--text)',
+        ci: '[' + x[4].toFixed(1) + ', ' + x[5].toFixed(1) + ']',
+        lab: x[8] ? '기재' : '미기재', labC: x[8] ? '#70F2B8' : '#C99A6E',
+        cat: cat[0], catC: cat[1], catB: cat[2],
+        jev: (k === 'A' && jp !== undefined) ? 'Jev ' + jp.toFixed(2) : '',
+        edge: x[7] ? (k === 'C' && !x[8] ? '#FFC445' : 'var(--line2)') : 'transparent' };
+    });
+    var counts = {};
+    sig.forEach(function (x) { var k = jcat(x); counts[k] = (counts[k] || 0) + 1; });
+    var cats = ['T', 'C', 'I', 'P', 'D', 'A'].map(function (k) {
+      var n = counts[k] || 0;
+      return { name: CAT[k][0], c: CAT[k][1], n: String(n), w: Math.round(100 * n / sig.length) + '%', ex: CAT[k][3] };
+    });
+    var nrev = sig.filter(function (x) { return jcat(x) === 'C' && !x[8]; }).length;
+    var F = [['review', '검토 ' + nrev + '건'], ['signal', '신호 54건'], ['all', '전체 80건']];
+    // Jev 54건 실측 캐스케이드 (측정: 204.5s, 건당 3.79s, 28,002 토큰)
+    var CAS = [ ['0.90 / 0.10', 26, 28, '48%', '23 / 26', 2], ['0.85 / 0.15', 31, 23, '57%', '28 / 31', 2],
+      ['0.80 / 0.20', 38, 16, '70%', '34 / 38', 3], ['0.70 / 0.30', 48, 6, '89%', '39 / 48', 5] ];
+    var cas = CAS.map(function (c) {
+      var on = c[0] === '0.80 / 0.20';
+      return { th: c[0], auto: String(c[1]), esc: String(c[2]), cut: c[3], ag: c[4], art: String(c[5]),
+        bg: on ? '#16283B' : 'transparent', c: on ? '#8EE7FA' : 'var(--text)', w: on ? '600' : '400' };
+    });
+    var nart = sig.filter(function (x) { return jcat(x) === 'A'; }).length;
+    return { rows: rows, cats: cats, cas: cas, nart: String(nart),
+      nrev: String(nrev), ncut: Math.round(100 * (1 - nrev / sig.length)) + '%', filters: F.map(function (f) {
+      var on = f[0] === (st.bf || 'review');
+      return { label: f[1], fg: on ? '#021721' : 'var(--text)', bg: on ? 'var(--accent)' : '#101C2B', bd: on ? 'var(--accent)' : 'var(--line2)',
+        pick: function () { self.setState({ bf: f[0] }); } };
+    }) };
+  }
+  renderVals() {
+    var bench = this.benchVals();
+    var nar = this.naranjo(this.state.sel), who = this.WHO[this.state.sel];
+    var same = nar.label === who.label;
+    var gap = { k: same ? '두 기준 일치' : '두 기준 불일치',
+      c: same ? '#70F2B8' : '#FF8B35', bg: same ? 'transparent' : '#1A1206',
+      text: (same ? '두 기준 모두 ' + nar.label + '입니다. ' : 'WHO-UMC는 ' + who.label + ', Naranjo는 ' + nar.label + '입니다. ') + this.GAP[this.state.sel] };
+    var self = this, st = this.state, OK = '#70F2B8', NO = '#FF8B35', WAIT = '#FFC445', NA = '#516E89';
+    var RT = { s1a: ['System 1 · 관련', '#65D9F1', '#0D2836'], s1r: ['System 1 · 제외', '#65D9F1', '#0D2836'],
+               s2: ['System 2 · 이관', '#FFC445', '#2C2412'], hu: ['전문가 검토', '#B76CFF', '#211539'] };
+    var eff = this.eff(), cur = eff[st.sel], tier = this.tier();
+    var reports = eff.map(function (r, i) {
+      var t = RT[r.r], on = i === st.sel;
+      return { id: r.id, meta: r.meta, route: t[0], rc: t[1], rb: t[2], p: r.p.toFixed(2), w: Math.round(r.p * 100) + '%',
+        srcLabel: r.src === 'real' ? '실제 보고' : '합성 예시', srcC: r.src === 'real' ? 'var(--ok)' : 'var(--warn)',
+        edge: on ? t[1] : 'transparent', bg: on ? '#17263A' : 'transparent',
+        pick: function () { self.setState({ sel: i }); } };
+    });
+    var GC = [[NO, '#2B1A0C', '✕'], [OK, '#0A2A20', '✓'], [WAIT, '#2C2412', '?'], [NA, '#0B1421', '–']];
+    var VC = { PASS: [OK, '#0A2A20', '통과'], REJECT: [NO, '#2B1A0C', '반려'], HUMAN: ['#B76CFF', '#211539', '전문가 검토'] };
+    var claims = this.CLAIMS.map(function (c, i) {
+      var on = i === st.claim;
+      return { text: c.text, v: VC[c.v][2], vc: VC[c.v][0], vb: VC[c.v][1],
+        g1: GC[c.g[0]][0], b1: GC[c.g[0]][1], s1: GC[c.g[0]][2],
+        g2: GC[c.g[1]][0], b2: GC[c.g[1]][1], s2: GC[c.g[1]][2],
+        g3: GC[c.g[2]][0], b3: GC[c.g[2]][1], s3: GC[c.g[2]][2],
+        edge: on ? 'var(--accent)' : 'transparent', bg: on ? '#17263A' : 'transparent',
+        pick: function () { self.setState({ claim: i }); } };
+    });
+    var n = function (r) { return eff.filter(function (x) { return r.indexOf(x.r) >= 0; }).length; };
+    var s1 = n(['s1a', 's1r']), s2 = n(['s2']), hu = n(['hu']);
+    var tierBox = function (k, name, sub, idx, col) {
+      var on = tier === idx;
+      return { k: k, n: name, s: sub, c: on ? col : 'var(--muted)', bd: on ? col : 'var(--line)', bg: on ? 'var(--panel3)' : 'transparent', op: 1 };
+    };
+    return {
+      brainRef: this.brainRef, reports: reports, claims: claims, claim: this.CLAIMS[st.claim],
+      isMain: st.tab === 'main', isBench: st.tab === 'bench',
+      tabs: [['main', '보고 평가'], ['bench', '시그널 탐지 벤치마크']].map(function (t) {
+        var on = t[0] === st.tab;
+        return { label: t[1], fg: on ? 'var(--bright)' : 'var(--muted)', bd: on ? 'var(--accent)' : 'transparent',
+          pick: function () { self.setState({ tab: t[0] }); } };
+      }),
+      rows: bench.rows, cats: bench.cats, filters: bench.filters, cas: bench.cas, nart: bench.nart,
+      nrev: bench.nrev, ncut: bench.ncut,
+      sel: { id: cur.id, p: cur.p.toFixed(2), why: cur.why,
+        q: [['관련','related'],['중대','serious'],['정보부족','insufficient'],['교란','confounded']].map(function (t) {
+          var v = cur.j[t[1]];
+          return { k: t[0], v: v.toFixed(2), c: v >= 0.75 ? '#FFC445' : (v <= 0.25 ? 'var(--muted)' : 'var(--muted2)') };
+        }) },
+      who: this.WHO[st.sel], nar: nar, gap: gap,
+      tiers: [
+        tierBox('빠른 분류', 'Jev 1.13.0', '확률만 출력 · 한 호출에 문항 4개', 1, '#65D9F1'),
+        tierBox('근거 검토', 'SYSTEM 2', 'LLM 요약 + 라벨·FAERS 대조', 2, '#FFC445'),
+        tierBox('전문가 검토', 'HUMAN', '중대 사례 · 판정 불가 건', 3, '#B76CFF')
+      ],
+      tiles: [
+        { k: '보고 큐', v: String(eff.length), s: '데모 샘플', c: 'var(--text)' },
+        { k: '빠른 분류 (Jev)', v: String(s1), s: '즉시 판정 · LLM 호출 0', c: '#65D9F1' },
+        { k: '근거 검토', v: String(s2), s: 'LLM 호출 건', c: '#FFC445' },
+        { k: '전문가 검토', v: String(hu), s: '중대 · 판정 불가', c: '#B76CFF' },
+        { k: '줄어든 LLM 호출', v: s1 + ' / ' + eff.length, s: st.jev ? 'Jev 게이트 적용' : '게이트 끔', c: st.jev ? OK : 'var(--muted)' },
+        { k: 'Jev 건당 지연', v: '3.4s', s: '문항 4개 동시 · 실측 중앙값', c: 'var(--text)' }
+      ],
+      jv: st.jev ? { label: 'Jev 게이트 켬', fg: '#08131A', bg: OK, bd: OK } : { label: 'Jev 게이트 끔', fg: 'var(--text)', bg: 'var(--panel)', bd: 'var(--line2)' },
+      toggleJev: function () { self.setState({ jev: !self.state.jev }); },
+      next: function () { self.setState({ sel: (self.state.sel + 1) % self.RAW.length }); }
+    };
+  }
+}
+dcMount(document.getElementById('tpl'), Component, document.getElementById('app'));
+</script>
+</body>
+</html>

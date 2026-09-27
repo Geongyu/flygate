@@ -1,0 +1,12 @@
+{
+ "pairs": 80,
+ "signals": 54,
+ "review": 14,
+ "by_cat": {
+  "TERMINOLOGY": 19,
+  "CANDIDATE": 19,
+  "PROGRESSION": 4,
+  "INDICATION": 10,
+  "PHARMACODYNAMIC": 2
+ }
+}

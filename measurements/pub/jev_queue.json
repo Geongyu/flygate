@@ -1,0 +1,74 @@
+[
+ {
+  "id": "FAERS 13497451",
+  "src": "real",
+  "meta": "덴마크 · 64세 여성 · 휴약 후 회복",
+  "jev": {
+   "related": 0.81,
+   "serious": 0.05,
+   "insufficient": 0.49,
+   "confounded": 0.67
+  },
+  "sec": 4.08
+ },
+ {
+  "id": "FAERS 13587068",
+  "src": "real",
+  "meta": "사망 표시 · 원인은 질병 진행으로 기재",
+  "jev": {
+   "related": 0.3,
+   "serious": 0.98,
+   "insufficient": 0.63,
+   "confounded": 0.77
+  },
+  "sec": 3.35
+ },
+ {
+  "id": "FAERS 13643360",
+  "src": "real",
+  "meta": "남성 · 전립선암 · 적응증 외 사용",
+  "jev": {
+   "related": 0.4,
+   "serious": 0.1,
+   "insufficient": 0.76,
+   "confounded": 0.79
+  },
+  "sec": 3.39
+ },
+ {
+  "id": "합성 예시-04",
+  "src": "synthetic",
+  "meta": "보도 직후 유입 · 약물명 외 정보 없음",
+  "jev": {
+   "related": 0.4,
+   "serious": 0.08,
+   "insufficient": 0.86,
+   "confounded": 0.75
+  },
+  "sec": 4.85
+ },
+ {
+  "id": "합성 예시-05",
+  "src": "synthetic",
+  "meta": "병용약 3종 · 투약 시작일 불명확",
+  "jev": {
+   "related": 0.47,
+   "serious": 0.1,
+   "insufficient": 0.48,
+   "confounded": 0.93
+  },
+  "sec": 3.36
+ },
+ {
+  "id": "합성 예시-06",
+  "src": "synthetic",
+  "meta": "빈혈 · 투여 2주차 발생",
+  "jev": {
+   "related": 0.74,
+   "serious": 0.06,
+   "insufficient": 0.36,
+   "confounded": 0.59
+  },
+  "sec": 4.31
+ }
+]

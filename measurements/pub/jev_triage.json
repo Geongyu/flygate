@@ -1,0 +1,758 @@
+[
+ {
+  "drug": "NIRAPARIB",
+  "event": "NAUSEA",
+  "prr": 7.0,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.04,
+   "progression": 0.03,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.04
+  },
+  "sec": 3.75
+ },
+ {
+  "drug": "NIRAPARIB",
+  "event": "FATIGUE",
+  "prr": 6.43,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.08,
+   "progression": 0.07,
+   "pharmacodynamic": 0.04,
+   "artifact": 0.05
+  },
+  "sec": 4.06
+ },
+ {
+  "drug": "NIRAPARIB",
+  "event": "PLATELET COUNT DECREASED",
+  "prr": 38.24,
+  "label": false,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.04,
+   "progression": 0.06,
+   "pharmacodynamic": 0.19,
+   "artifact": 0.04
+  },
+  "sec": 3.56
+ },
+ {
+  "drug": "NIRAPARIB",
+  "event": "CONSTIPATION",
+  "prr": 18.34,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.04,
+   "progression": 0.04,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.05
+  },
+  "sec": 3.5
+ },
+ {
+  "drug": "NIRAPARIB",
+  "event": "INSOMNIA",
+  "prr": 10.2,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.07,
+   "progression": 0.08,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.05
+  },
+  "sec": 4.39
+ },
+ {
+  "drug": "NIRAPARIB",
+  "event": "BLOOD PRESSURE INCREASED",
+  "prr": 15.45,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.05,
+   "progression": 0.11,
+   "pharmacodynamic": 0.21,
+   "artifact": 0.04
+  },
+  "sec": 3.39
+ },
+ {
+  "drug": "NIRAPARIB",
+  "event": "HEADACHE",
+  "prr": 3.6,
+  "label": true,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.05,
+   "progression": 0.04,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.04
+  },
+  "sec": 3.52
+ },
+ {
+  "drug": "NIRAPARIB",
+  "event": "OFF LABEL USE",
+  "prr": 2.46,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.03,
+   "progression": 0.06,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.92
+  },
+  "sec": 3.46
+ },
+ {
+  "drug": "OLAPARIB",
+  "event": "DEATH",
+  "prr": 5.56,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.05,
+   "progression": 0.2,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.05
+  },
+  "sec": 3.68
+ },
+ {
+  "drug": "OLAPARIB",
+  "event": "MALIGNANT NEOPLASM PROGRESSION",
+  "prr": 20.83,
+  "label": false,
+  "nemotron": "PROGRESSION",
+  "jev": {
+   "indication": 0.6,
+   "progression": 0.76,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.06
+  },
+  "sec": 3.53
+ },
+ {
+  "drug": "OLAPARIB",
+  "event": "NAUSEA",
+  "prr": 2.34,
+  "label": true,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.03,
+   "progression": 0.03,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.04
+  },
+  "sec": 3.44
+ },
+ {
+  "drug": "OLAPARIB",
+  "event": "FATIGUE",
+  "prr": 2.29,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.09,
+   "progression": 0.07,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.04
+  },
+  "sec": 3.37
+ },
+ {
+  "drug": "OLAPARIB",
+  "event": "ANAEMIA",
+  "prr": 8.63,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.07,
+   "progression": 0.05,
+   "pharmacodynamic": 0.1,
+   "artifact": 0.03
+  },
+  "sec": 3.6
+ },
+ {
+  "drug": "RUCAPARIB",
+  "event": "FATIGUE",
+  "prr": 7.87,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.07,
+   "progression": 0.07,
+   "pharmacodynamic": 0.04,
+   "artifact": 0.05
+  },
+  "sec": 4.51
+ },
+ {
+  "drug": "RUCAPARIB",
+  "event": "NAUSEA",
+  "prr": 6.86,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.04,
+   "progression": 0.03,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.04
+  },
+  "sec": 3.4
+ },
+ {
+  "drug": "RUCAPARIB",
+  "event": "MALIGNANT NEOPLASM PROGRESSION",
+  "prr": 28.08,
+  "label": false,
+  "nemotron": "PROGRESSION",
+  "jev": {
+   "indication": 0.54,
+   "progression": 0.76,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.05
+  },
+  "sec": 3.7
+ },
+ {
+  "drug": "RUCAPARIB",
+  "event": "DECREASED APPETITE",
+  "prr": 8.3,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.05,
+   "progression": 0.06,
+   "pharmacodynamic": 0.04,
+   "artifact": 0.04
+  },
+  "sec": 5.25
+ },
+ {
+  "drug": "RUCAPARIB",
+  "event": "DIARRHOEA",
+  "prr": 2.94,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.05,
+   "progression": 0.04,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.04
+  },
+  "sec": 3.46
+ },
+ {
+  "drug": "RUCAPARIB",
+  "event": "CONSTIPATION",
+  "prr": 8.69,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.04,
+   "progression": 0.04,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.04
+  },
+  "sec": 4.1
+ },
+ {
+  "drug": "RUCAPARIB",
+  "event": "VOMITING",
+  "prr": 3.99,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.03,
+   "progression": 0.03,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.04
+  },
+  "sec": 3.35
+ },
+ {
+  "drug": "RUCAPARIB",
+  "event": "ASTHENIA",
+  "prr": 4.33,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.11,
+   "progression": 0.1,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.05
+  },
+  "sec": 4.06
+ },
+ {
+  "drug": "APIXABAN",
+  "event": "ATRIAL FIBRILLATION",
+  "prr": 13.76,
+  "label": true,
+  "nemotron": "INDICATION",
+  "jev": {
+   "indication": 0.91,
+   "progression": 0.57,
+   "pharmacodynamic": 0.05,
+   "artifact": 0.08
+  },
+  "sec": 3.38
+ },
+ {
+  "drug": "APIXABAN",
+  "event": "DYSPNOEA",
+  "prr": 2.12,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.36,
+   "progression": 0.27,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.05
+  },
+  "sec": 3.77
+ },
+ {
+  "drug": "APIXABAN",
+  "event": "CEREBROVASCULAR ACCIDENT",
+  "prr": 6.77,
+  "label": false,
+  "nemotron": "INDICATION",
+  "jev": {
+   "indication": 0.24,
+   "progression": 0.21,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.04
+  },
+  "sec": 3.64
+ },
+ {
+  "drug": "APIXABAN",
+  "event": "THROMBOSIS",
+  "prr": 11.56,
+  "label": true,
+  "nemotron": "INDICATION",
+  "jev": {
+   "indication": 0.74,
+   "progression": 0.3,
+   "pharmacodynamic": 0.05,
+   "artifact": 0.04
+  },
+  "sec": 3.65
+ },
+ {
+  "drug": "APIXABAN",
+  "event": "CARDIAC DISORDER",
+  "prr": 8.65,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.18,
+   "progression": 0.19,
+   "pharmacodynamic": 0.04,
+   "artifact": 0.06
+  },
+  "sec": 4.29
+ },
+ {
+  "drug": "APIXABAN",
+  "event": "FALL",
+  "prr": 2.32,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.07,
+   "progression": 0.14,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.49
+  },
+  "sec": 3.54
+ },
+ {
+  "drug": "CELECOXIB",
+  "event": "DRUG INEFFECTIVE",
+  "prr": 2.22,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.08,
+   "progression": 0.36,
+   "pharmacodynamic": 0.11,
+   "artifact": 0.73
+  },
+  "sec": 3.33
+ },
+ {
+  "drug": "CELECOXIB",
+  "event": "PAIN",
+  "prr": 3.33,
+  "label": true,
+  "nemotron": "INDICATION",
+  "jev": {
+   "indication": 0.76,
+   "progression": 0.34,
+   "pharmacodynamic": 0.06,
+   "artifact": 0.11
+  },
+  "sec": 3.4
+ },
+ {
+  "drug": "CELECOXIB",
+  "event": "ARTHRALGIA",
+  "prr": 4.45,
+  "label": true,
+  "nemotron": "INDICATION",
+  "jev": {
+   "indication": 0.65,
+   "progression": 0.22,
+   "pharmacodynamic": 0.04,
+   "artifact": 0.04
+  },
+  "sec": 4.35
+ },
+ {
+  "drug": "CELECOXIB",
+  "event": "FATIGUE",
+  "prr": 2.1,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.11,
+   "progression": 0.13,
+   "pharmacodynamic": 0.04,
+   "artifact": 0.05
+  },
+  "sec": 3.76
+ },
+ {
+  "drug": "CELECOXIB",
+  "event": "DRUG HYPERSENSITIVITY",
+  "prr": 6.79,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.03,
+   "progression": 0.04,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.04
+  },
+  "sec": 4.81
+ },
+ {
+  "drug": "METFORMIN",
+  "event": "DIARRHOEA",
+  "prr": 2.15,
+  "label": true,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.06,
+   "progression": 0.05,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.04
+  },
+  "sec": 3.94
+ },
+ {
+  "drug": "METFORMIN",
+  "event": "BLOOD GLUCOSE INCREASED",
+  "prr": 8.0,
+  "label": false,
+  "nemotron": "PROGRESSION",
+  "jev": {
+   "indication": 0.59,
+   "progression": 0.35,
+   "pharmacodynamic": 0.56,
+   "artifact": 0.05
+  },
+  "sec": 3.31
+ },
+ {
+  "drug": "METFORMIN",
+  "event": "VOMITING",
+  "prr": 2.04,
+  "label": true,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.04,
+   "progression": 0.04,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.04
+  },
+  "sec": 4.05
+ },
+ {
+  "drug": "METFORMIN",
+  "event": "LACTIC ACIDOSIS",
+  "prr": 72.83,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.04,
+   "progression": 0.08,
+   "pharmacodynamic": 0.04,
+   "artifact": 0.03
+  },
+  "sec": 6.07
+ },
+ {
+  "drug": "METFORMIN",
+  "event": "ACUTE KIDNEY INJURY",
+  "prr": 6.37,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.04,
+   "progression": 0.18,
+   "pharmacodynamic": 0.04,
+   "artifact": 0.04
+  },
+  "sec": 3.56
+ },
+ {
+  "drug": "ATORVASTATIN",
+  "event": "TYPE 2 DIABETES MELLITUS",
+  "prr": 41.91,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.04,
+   "progression": 0.2,
+   "pharmacodynamic": 0.04,
+   "artifact": 0.04
+  },
+  "sec": 4.23
+ },
+ {
+  "drug": "WARFARIN",
+  "event": "INTERNATIONAL NORMALISED RATIO INCREASED",
+  "prr": 93.94,
+  "label": false,
+  "nemotron": "PHARMACODYNAMIC",
+  "jev": {
+   "indication": 0.05,
+   "progression": 0.09,
+   "pharmacodynamic": 0.9,
+   "artifact": 0.08
+  },
+  "sec": 3.61
+ },
+ {
+  "drug": "WARFARIN",
+  "event": "DYSPNOEA",
+  "prr": 2.51,
+  "label": false,
+  "nemotron": "PROGRESSION",
+  "jev": {
+   "indication": 0.27,
+   "progression": 0.27,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.05
+  },
+  "sec": 3.28
+ },
+ {
+  "drug": "WARFARIN",
+  "event": "DRUG INTERACTION",
+  "prr": 6.86,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.02,
+   "progression": 0.04,
+   "pharmacodynamic": 0.04,
+   "artifact": 0.19
+  },
+  "sec": 3.83
+ },
+ {
+  "drug": "METHOTREXATE",
+  "event": "DRUG INEFFECTIVE",
+  "prr": 3.19,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.1,
+   "progression": 0.45,
+   "pharmacodynamic": 0.11,
+   "artifact": 0.72
+  },
+  "sec": 3.38
+ },
+ {
+  "drug": "METHOTREXATE",
+  "event": "RHEUMATOID ARTHRITIS",
+  "prr": 25.67,
+  "label": true,
+  "nemotron": "INDICATION",
+  "jev": {
+   "indication": 0.91,
+   "progression": 0.69,
+   "pharmacodynamic": 0.05,
+   "artifact": 0.11
+  },
+  "sec": 3.66
+ },
+ {
+  "drug": "METHOTREXATE",
+  "event": "ARTHRALGIA",
+  "prr": 4.58,
+  "label": true,
+  "nemotron": "INDICATION",
+  "jev": {
+   "indication": 0.5,
+   "progression": 0.2,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.04
+  },
+  "sec": 3.4
+ },
+ {
+  "drug": "METHOTREXATE",
+  "event": "OFF LABEL USE",
+  "prr": 2.02,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.03,
+   "progression": 0.06,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.93
+  },
+  "sec": 3.33
+ },
+ {
+  "drug": "METHOTREXATE",
+  "event": "PAIN",
+  "prr": 2.89,
+  "label": true,
+  "nemotron": "INDICATION",
+  "jev": {
+   "indication": 0.3,
+   "progression": 0.19,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.07
+  },
+  "sec": 3.51
+ },
+ {
+  "drug": "METHOTREXATE",
+  "event": "JOINT SWELLING",
+  "prr": 11.0,
+  "label": false,
+  "nemotron": "INDICATION",
+  "jev": {
+   "indication": 0.54,
+   "progression": 0.33,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.04
+  },
+  "sec": 3.58
+ },
+ {
+  "drug": "CLOZAPINE",
+  "event": "NEUTROPENIA",
+  "prr": 27.12,
+  "label": true,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.03,
+   "progression": 0.04,
+   "pharmacodynamic": 0.05,
+   "artifact": 0.03
+  },
+  "sec": 5.55
+ },
+ {
+  "drug": "CLOZAPINE",
+  "event": "HOSPITALISATION",
+  "prr": 14.84,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.07,
+   "progression": 0.31,
+   "pharmacodynamic": 0.03,
+   "artifact": 0.81
+  },
+  "sec": 3.36
+ },
+ {
+  "drug": "CLOZAPINE",
+  "event": "DEATH",
+  "prr": 2.37,
+  "label": true,
+  "nemotron": "TERMINOLOGY",
+  "jev": {
+   "indication": 0.04,
+   "progression": 0.12,
+   "pharmacodynamic": 0.02,
+   "artifact": 0.05
+  },
+  "sec": 3.53
+ },
+ {
+  "drug": "CLOZAPINE",
+  "event": "SCHIZOPHRENIA",
+  "prr": 105.64,
+  "label": true,
+  "nemotron": "INDICATION",
+  "jev": {
+   "indication": 0.96,
+   "progression": 0.72,
+   "pharmacodynamic": 0.06,
+   "artifact": 0.23
+  },
+  "sec": 3.41
+ },
+ {
+  "drug": "CLOZAPINE",
+  "event": "WHITE BLOOD CELL COUNT INCREASED",
+  "prr": 22.17,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.05,
+   "progression": 0.14,
+   "pharmacodynamic": 0.08,
+   "artifact": 0.05
+  },
+  "sec": 3.97
+ },
+ {
+  "drug": "CLOZAPINE",
+  "event": "WHITE BLOOD CELL COUNT DECREASED",
+  "prr": 7.19,
+  "label": false,
+  "nemotron": "PHARMACODYNAMIC",
+  "jev": {
+   "indication": 0.03,
+   "progression": 0.07,
+   "pharmacodynamic": 0.07,
+   "artifact": 0.04
+  },
+  "sec": 3.54
+ },
+ {
+  "drug": "CLOZAPINE",
+  "event": "NEUTROPHIL COUNT INCREASED",
+  "prr": 114.96,
+  "label": false,
+  "nemotron": "CANDIDATE",
+  "jev": {
+   "indication": 0.05,
+   "progression": 0.15,
+   "pharmacodynamic": 0.1,
+   "artifact": 0.05
+  },
+  "sec": 3.35
+ }
+]

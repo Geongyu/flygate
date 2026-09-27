@@ -1,0 +1,10 @@
+.env
+.env.*
+*.key
+*.pem
+node_modules/
+__pycache__/
+.DS_Store
+Thumbs.db
+fda_cache.json  # openFDA 원시 응답 캐시 6MB, 재조회 가능
+_to_delete/
