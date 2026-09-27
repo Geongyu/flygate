@@ -7,9 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-<style>
 /* 색·컴포넌트 토큰은 FDDD(fly-connectome-template) src/style.css 에서 가져옴.
    글자 크기만 가독성을 위해 상향. 크레딧은 각 화면 푸터에 표시. */
 :root{
@@ -27,7 +24,7 @@ button:hover{border-color:#78B7DC;color:#FFFFFF}
 button:focus-visible{outline:2px solid #4EE4FF;outline-offset:4px}
 .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
 .lbl{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.13em;color:#7392AE;text-transform:uppercase}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
+.card{background:var(--panel);border:1px solid var(--line2);border-radius:var(--r)}
 .h2{margin:0;font-size:17px;font-weight:600;letter-spacing:-.2px;color:var(--bright)}
 .trow{background:transparent;border-radius:0}
 .trow:hover{background:#17263A;border-color:transparent}
@@ -41,7 +38,6 @@ button:focus-visible{outline:2px solid #4EE4FF;outline-offset:4px}
 .bar{transition:width .6s cubic-bezier(.2,.8,.2,1)}
 .grow{animation:grow 1s cubic-bezier(.2,.8,.2,1) both}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
-</style>
 </style>
 <style>
 /* 스탠드얼론 전용 보정: 좁은 화면에서 오른쪽이 잘리지 않게 한다 */
@@ -109,7 +105,7 @@ body{overflow-x:hidden}
 </span>
 <span style="font-size: 14px; line-height: 1.5;">{{ r.meta }}</span>
 <span style="display: flex; align-items: center; gap: 12px; width: 100%;">
-<span style="flex-grow: 1; height: 6px; border-radius: 3px; background: #1B2B3E;"><span class="bar" style="display: block; height: 6px; border-radius: 3px; width: {{ r.w }}; background: {{ r.rc }};"></span></span>
+<span style="display: block; flex-grow: 1; height: 6px; border-radius: 3px; background: #1B2B3E;"><span class="bar" style="display: block; height: 6px; border-radius: 3px; width: {{ r.w }}; background: {{ r.rc }};"></span></span>
 <span class="mono" style="font-size: 14px; width: 42px; text-align: right;">{{ r.p }}</span>
 </span>
 </button>
@@ -201,8 +197,8 @@ body{overflow-x:hidden}
 <div class="card" style="display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; overflow: hidden; flex-shrink: 0;">
 <div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; border-right: 1px solid var(--line);">
 <span class="lbl" style="font-size: 11px;">근거 넘어선 주장 적발 · 8건</span>
-<div style="display: flex; align-items: center; gap: 14px;"><span style="font-size: 14px; width: 110px; color: var(--muted2);">규칙만</span><span style="flex-grow: 1; height: 6px; border-radius: 3px; background: #1B2B3E;"><span class="grow" style="display: block; width: 4%; height: 6px; border-radius: 3px; background: var(--muted);"></span></span><span class="mono" style="font-size: 14px; width: 40px; text-align: right;">0/4</span></div>
-<div style="display: flex; align-items: center; gap: 14px;"><span style="font-size: 14px; width: 110px; color: var(--muted2);">+ Nemotron</span><span style="flex-grow: 1; height: 6px; border-radius: 3px; background: #1B2B3E;"><span class="grow" style="display: block; width: 100%; height: 6px; border-radius: 3px; background: var(--accent); animation-delay: .15s;"></span></span><span class="mono" style="font-size: 14px; width: 40px; text-align: right;">4/4</span></div>
+<div style="display: flex; align-items: center; gap: 14px;"><span style="font-size: 14px; width: 110px; color: var(--muted2);">규칙만</span><span style="display: block; flex-grow: 1; height: 6px; border-radius: 3px; background: #1B2B3E;"><span class="grow" style="display: block; width: 4%; height: 6px; border-radius: 3px; background: var(--muted);"></span></span><span class="mono" style="font-size: 14px; width: 40px; text-align: right;">0/4</span></div>
+<div style="display: flex; align-items: center; gap: 14px;"><span style="font-size: 14px; width: 110px; color: var(--muted2);">+ Nemotron</span><span style="display: block; flex-grow: 1; height: 6px; border-radius: 3px; background: #1B2B3E;"><span class="grow" style="display: block; width: 100%; height: 6px; border-radius: 3px; background: var(--accent); animation-delay: .15s;"></span></span><span class="mono" style="font-size: 14px; width: 40px; text-align: right;">4/4</span></div>
 </div>
 <div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; border-right: 1px solid var(--line);"><span class="lbl" style="font-size: 11px;">정상 주장 오반려</span><span class="mono" style="font-size: 26px; color: var(--warn);">1 / 4</span></div>
 <div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; border-right: 1px solid var(--line);"><span class="lbl" style="font-size: 11px;">과잉해석 규칙</span><span class="mono" style="font-size: 26px;">15 <span style="font-size: 13px; color: var(--muted2);">종</span></span></div>
